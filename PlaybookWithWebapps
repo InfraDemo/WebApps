@@ -1,15 +1,21 @@
 ---
-- hosts: local
-  sudo: yes
+- hosts: localhost
+  connection: local
+  remote_user: root
+  become: yes
+  gather_facts: no
+  vars_files:
+    - awscreds.yml
   tasks:
-  ec2:
-        key_name: "{{ ec2.key }}"
-        group: "{{ ec2.zookeeper_security_group }}"
-        instance_type: "{{ ec2.zookeeper_instance_type }}"
-        image: "{{ ec2.image }}"
-        wait: yes
-        region: "{{ ec2.region }}"
-        
+    - name: provision
+      ec2:
+         aws_access_key: "{{aws_id}}"
+         aws_secret_key: "{{aws_key}}"
+         region: "{{aws_region}}"
+         image: ami-0f65671a86f061fcd
+         instance_type: t2.micro
+         vpc_subnet_id: subnet-7fbd8717 
+         
     - name: install apache2
       apt: name=apache2 update_cache=yes state=latest
     - name: Copy index file
