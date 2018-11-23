@@ -1,0 +1,20 @@
+---
+- hosts: local
+  sudo: yes
+  tasks:
+  ec2:
+        key_name: "{{ ec2.key }}"
+        group: "{{ ec2.zookeeper_security_group }}"
+        instance_type: "{{ ec2.zookeeper_instance_type }}"
+        image: "{{ ec2.image }}"
+        wait: yes
+        region: "{{ ec2.region }}"
+        
+    - name: install apache2
+      apt: name=apache2 update_cache=yes state=latest
+    - name: Copy index file
+      src: index.html
+      dest: /var/www/html
+       
+    
+      
