@@ -16,11 +16,7 @@
          instance_type: t2.micro
          vpc_subnet_id: subnet-7fbd8717 
          
-    - name: install apache2
-      apt: name=apache2 update_cache=yes state=latest
-    - name: Copy index file
-      src: index.html
-      dest: /var/www/html
+    
        
     
       
